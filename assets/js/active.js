@@ -60,7 +60,7 @@ if (passWord) {
 }
 
 function passwordFunction() {
-    var passInput = document.getElementById("psw-input");
+    var passInput = document.getElementById("password");
     passWord.classList.toggle("active");
 
     if (passInput.type === "password") {
@@ -626,22 +626,22 @@ var onlineBtn = document.querySelectorAll(".online-detection");
 if (offlineBtn.length > 0 && onlineBtn.length > 0) {
     var alertShowingId = document.getElementById("internetStatus");
 
-    offlineBtn[0].addEventListener("click", function(){
+    offlineBtn[0].addEventListener("click", function () {
         alertShowingId.style.display = "block";
         alertShowingId.style.backgroundColor = "#ea4c62";
         alertShowingId.innerText = "Oops! No internet connection.";
-    
-        setTimeout(function() {
+
+        setTimeout(function () {
             alertShowingId.style.display = "none";
         }, 5000);
     });
-    
-    onlineBtn[0].addEventListener("click", function(){
+
+    onlineBtn[0].addEventListener("click", function () {
         alertShowingId.style.display = "block";
         alertShowingId.style.backgroundColor = "#00b894";
         alertShowingId.innerText = "Your internet connection is back.";
-    
-        setTimeout(function() {
+
+        setTimeout(function () {
             alertShowingId.style.display = "none";
         }, 5000);
     });

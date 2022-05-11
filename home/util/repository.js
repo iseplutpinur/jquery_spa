@@ -13,17 +13,11 @@ const storage = {
 };
 
 const repo = {
-    setUser: (name, foto) => {
-        return storage.set('repo_user', {
-            name: name,
-            foto: foto,
-        });
+    setUser: (data) => {
+        return storage.set('repo_user', data);
     },
     getUser: () => {
-        return storage.get('repo_user', {
-            name: 'Isep Lutpi Nur',
-            foto: 'https://picsum.photos/200/200',
-        });
+        return storage.get('repo_user');
     },
     resetUser: () => {
         return storage.delete('repo_user');

@@ -38,21 +38,37 @@
 </head>
 
 <body>
+    <!-- Toast-->
+    <div class="toast toast-autohide custom-toast-1 toast-success home-page-toast" role="alert" aria-live="assertive"
+        aria-atomic="true" data-bs-delay="10000" data-bs-autohide="true" style="display: none;">
+        <div class="toast-body">
+            <svg class="bi bi-bookmark-check text-white" width="30" height="30" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z">
+                </path>
+                <path fill-rule="evenodd"
+                    d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z">
+                </path>
+            </svg>
+            <div class="toast-text ms-3 me-2">
+                <p class="mb-1 text-white" id="toast-title"></p>
+                <small class="d-block" id="toast-fill"></small>
+            </div>
+        </div>
+        <button class="btn btn-close btn-close-white position-absolute p-1" type="button" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+    </div>
+
     <!-- Preloader -->
     <div id="preloader">
         <div class="spinner-grow text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
     </div>
+
+
+
     <!-- Internet Connection Status -->
-    <!-- # This code for showing internet connection status -->
     <div class="internet-connection-status" id="internetStatus"></div>
-    <!-- Back Button -->
-    <div class="login-back-button"><a href="element-hero-blocks.html">
-            <svg class="bi bi-arrow-left-short" width="32" height="32" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                    d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z">
-                </path>
-            </svg></a></div>
     <!-- Login Wrapper Area -->
     <div class="login-wrapper d-flex align-items-center justify-content-center">
         <div class="custom-container">
@@ -60,12 +76,13 @@
             <!-- Register Form -->
             <div class="register-form mt-4">
                 <h6 class="mb-3 text-center">Log in to continue to Affan.</h6>
-                <form action="./home/index.html">
+                <form action="./home/index.html" id="login-form">
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Username">
+                        <input class="form-control" type="email" placeholder="Email" id="email" name="email">
                     </div>
                     <div class="form-group position-relative">
-                        <input class="form-control" id="psw-input" type="password" placeholder="Enter Password">
+                        <input class="form-control" type="password" placeholder="Enter Password" name="password"
+                            id="password">
                         <div class="position-absolute" id="password-visibility"><i class="bi bi-eye"></i><i
                                 class="bi bi-eye-slash"></i></div>
                     </div>
@@ -83,19 +100,63 @@
     </div>
     <!-- All JavaScript Files -->
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/js/slideToggle.min.js"></script>
-    <script src="./assets/js/internet-status.js"></script>
-    <script src="./assets/js/tiny-slider.js"></script>
-    <script src="./assets/js/baguetteBox.min.js"></script>
-    <script src="./assets/js/countdown.js"></script>
-    <script src="./assets/js/rangeslider.min.js"></script>
-    <script src="./assets/js/vanilla-dataTables.min.js"></script>
-    <script src="./assets/js/index.js"></script>
-    <script src="./assets/js/magic-grid.min.js"></script>
     <script src="./assets/js/dark-rtl.js"></script>
     <script src="./assets/js/active.js"></script>
-    <!-- PWA -->
-    <script src="./assets/js/pwa.js"></script>
+
+    <script src="./assets/js/jquery-3.6.0.min.js"></script>
+    <script src="./home/util/repository.js"></script>
+    <script src="./home/util/toast.js"></script>
+    <script>
+        if (repo.getUser()) {
+            window.location.href = './home/index.html';
+        }
+
+        $(document).ready(() => {
+            // login
+            $('#login-form').submit(function (e) {
+                e.preventDefault();
+                // set
+                const email = $('#email');
+                const password = $('#password');
+                if (email.val() != 'iseplutpinur7@gmail.com') {
+                    setToast({
+                        fill: "Email Yang Anda Masukan tidak terdaftar",
+                        color: "danger",
+                        icon: 'danger'
+                    })
+                    email.focus();
+                    return;
+                }
+
+                if (password.val() != '123456') {
+                    setToast({
+                        fill: "Password yang anda masukan salah",
+                        color: "danger",
+                        icon: 'danger'
+                    })
+                    password.focus();
+                    return;
+                }
+
+                repo.setUser({
+                    name: 'Isep Lutpi Nur',
+                    email: email.val(),
+                })
+
+                setToast({
+                    title: "Login Berhasil",
+                    fill: "You will be redirected in 2 Seconds",
+                    color: "success",
+                    icon: 'success'
+                })
+
+                setTimeout(() => {
+                    // success
+                    window.location.href = './home/index.html';
+                }, 2000);
+            });
+        })
+    </script>
 </body>
 
 </html>
